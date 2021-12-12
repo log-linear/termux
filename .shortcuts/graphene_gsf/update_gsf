@@ -1,0 +1,23 @@
+#!/usr/bin/sh
+
+# Script to download updated GSF APK's from GrapheneOS's repo
+
+lastup=$(cat ./lastup.txt)
+url='https://apps.grapheneos.org/packages/com.google.android.gsf/31/'
+apkdate=$(
+  curl $url \
+    | cat \
+    | grep -o "[0-9][0-9][0-9][0-9]-[A-Z][a-z][a-z]-[0-9][0-9]" \
+    | cat
+)
+
+if [ "$lastup" = "$apkdate" ]; then
+  exit 0
+  termux-toast "Google Services Framework is up-to-date." 
+else
+  curl "$url/base.apk" --output base.apk
+  mv base.apk ~/storage/downloads
+  echo $apkdate > ./lastup.txt
+  termux-toast "New version of Google Services Framework is available. Install from the Downloads folder." 
+fi
+
