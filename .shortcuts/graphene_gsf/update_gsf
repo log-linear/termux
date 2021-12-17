@@ -3,7 +3,7 @@
 # Script to download updated GSF APK's from GrapheneOS's repo
 
 if [ -n "$1" ]; then dl=$1
-else dl=false
+else dl=true
 fi
 lastup=$(cat ./lastup.txt || echo '' && touch ./lastup.txt)
 url='https://apps.grapheneos.org/packages/com.google.android.gsf/31/'
